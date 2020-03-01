@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">تطبيقي</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">أمازون</string>
+    <string name="nav_header_subtitle">عالم القطغ</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">الاعدادات</string>
+
+    <string name="menu_home">الرئيسية</string>
+    <string name="menu_gallery">طلباتي</string>
+    <string name="menu_slideshow">شخصي</string>
+    <string name="title_activity_settings">الاعدادات</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">عام</string>
+    <string name="sync_header">مخصص</string>
+
+    <!-- Messages Preferences -->
+
+    <string name="reply_title">التوفيت الحالي</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">فعل الوضع الليلي</string>
+</resources>

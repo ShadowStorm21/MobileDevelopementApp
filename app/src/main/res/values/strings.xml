@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Amazon</string>
+    <string name="nav_header_subtitle">The Land of Parts</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">App Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">My Orders</string>
+    <string name="menu_slideshow">My Profile</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">General</string>
+    <string name="sync_header">Advance</string>
+
+    <!-- Messages Preferences -->
+
+    <string name="reply_title">Language</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Enable Dark Mode</string>
+
+    <string name="color_prompt" translatable="false">Choose a color</string>
+
+    <string-array name="color_arrays">
+        <item>White</item>
+        <item>Black</item>
+        <item>Green</item>
+        <item>Blue</item>
+    </string-array>
+
+
+</resources>
