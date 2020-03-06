@@ -97,10 +97,15 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mYear = findViewById(R.id.editText9);
         Calendar calendar;
         calendar = Calendar.getInstance();
-        Year = calendar.get(Calendar.YEAR);
-        Month = calendar.get(Calendar.MONTH);
-        Day = calendar.get(Calendar.DAY_OF_MONTH);
+        //Year = calendar.get(Calendar.YEAR);
+       // Month = calendar.get(Calendar.MONTH);
+       // Day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog;
+
+        // default date of birth will be on 2000 / 1 Jan
+        Year = 2000;
+        Month = 0;
+        Day = 1;
 
         datePickerDialog = new DatePickerDialog(SignupActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
