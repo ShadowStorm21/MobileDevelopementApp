@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "652454559654",
-    "firebase_url": "https://finalproject-9e81e.firebaseio.com",
-    "project_id": "finalproject-9e81e",
-    "storage_bucket": "finalproject-9e81e.appspot.com"
+    "project_number": "617828611621",
+    "firebase_url": "https://hello-base-7526e.firebaseio.com",
+    "project_id": "hello-base-7526e",
+    "storage_bucket": "hello-base-7526e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:652454559654:android:bcff3c17845562b7441967",
+        "mobilesdk_app_id": "1:617828611621:android:1e3a2ec5bbadd36b49f1cc",
         "android_client_info": {
-          "package_name": "com.example.finalproject"
+          "package_name": "com.example.busticketingsystem"
         }
       },
       "oauth_client": [
         {
-          "client_id": "652454559654-gn5js6e19qdb7lcsbcmuadj4ddtgruva.apps.googleusercontent.com",
+          "client_id": "617828611621-0o3p2hvtie5m5ii0mr2echnro2k1kv85.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.finalproject",
-            "certificate_hash": "785960a5ebd1c198a6267ad07b4bfe5150a73c42"
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "5702d7c6c5bf2c1d8203317fad5c7a357ca74eb9"
           }
         },
         {
-          "client_id": "652454559654-kggn9kgoa3he47j2ecjhul9mib5r93qc.apps.googleusercontent.com",
+          "client_id": "617828611621-e54nipep05dh4j1nid6ugauc8fh5d5kd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTD3cNBWutJuF3rsO26Ri07lBPvxzre1U"
+          "current_key": "AIzaSyCsZqjkvy8-PhEvltKm-c2ySficnFvBFxQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "652454559654-kggn9kgoa3he47j2ecjhul9mib5r93qc.apps.googleusercontent.com",
+              "client_id": "617828611621-e54nipep05dh4j1nid6ugauc8fh5d5kd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -45,27 +45,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:652454559654:android:76d5da5042d05d23441967",
+        "mobilesdk_app_id": "1:617828611621:android:c30ff2fca93906b349f1cc",
         "android_client_info": {
           "package_name": "com.example.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "652454559654-kggn9kgoa3he47j2ecjhul9mib5r93qc.apps.googleusercontent.com",
+          "client_id": "617828611621-e54nipep05dh4j1nid6ugauc8fh5d5kd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCTD3cNBWutJuF3rsO26Ri07lBPvxzre1U"
+          "current_key": "AIzaSyCsZqjkvy8-PhEvltKm-c2ySficnFvBFxQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "652454559654-kggn9kgoa3he47j2ecjhul9mib5r93qc.apps.googleusercontent.com",
+              "client_id": "617828611621-e54nipep05dh4j1nid6ugauc8fh5d5kd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
