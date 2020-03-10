@@ -8,11 +8,11 @@ import java.io.Serializable;
 public class SmartPhones implements Serializable {
     private String mProductId;
     private String mName;
-    private Long mPrice;
+    private Double mPrice;
     private Uri mPic;
     private String mDescription;
 
-    public SmartPhones(String mProductId, String mName, Long mPrice, String mDescription, Uri mPic) {
+    public SmartPhones(String mProductId, String mName, Double mPrice, String mDescription, Uri mPic) {
         this.mProductId = mProductId;
         this.mName = mName;
         this.mPrice = mPrice;
@@ -47,11 +47,11 @@ public class SmartPhones implements Serializable {
         this.mName = mName;
     }
 
-    public Long getmPrice() {
+    public Double getmPrice() {
         return mPrice;
     }
 
-    public void setmPrice(Long mPrice) {
+    public void setmPrice(Double mPrice) {
         this.mPrice = mPrice;
     }
 

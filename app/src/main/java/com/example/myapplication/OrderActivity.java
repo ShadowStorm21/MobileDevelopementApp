@@ -83,9 +83,10 @@ public class OrderActivity extends AppCompatActivity {
         description.setText("Description : "+smartPhone.get(position).getmDescription());
 
         // this will be changed later
-        if (smartPhone.get(position).getmName().equals("Samsung Galaxy S20")) {
+        SmartPhones phone = smartPhone.get(position);
+        if (!phone.getmProductId().isEmpty()) {
 
-            FirebaseStorage.getInstance().getReference("s20.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            FirebaseStorage.getInstance().getReference(phone.getmProductId() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
 

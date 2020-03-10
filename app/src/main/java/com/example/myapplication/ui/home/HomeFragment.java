@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
     private Uri mUri;
     private Intent mIntent;
     private String username, id, pid, pname;
-    private Long price;
+    private Double price;
     private ValueEventListener valueEventListener;
 
     // this might be changed later also
@@ -98,14 +98,13 @@ public class HomeFragment extends Fragment {
                 X = true;
                 for (DataSnapshot products : dataSnapshot.getChildren()) {
                     HashMap<String, Object> hashMap = (HashMap) products.getValue();
-                    pid = (String) hashMap.get("id");
-                    pname = (String) hashMap.get("name");
-                    price = (Long) hashMap.get("price");
+                    pid = hashMap.get("id").toString();
+                    pname = hashMap.get("name").toString();
+                    price = (Double) hashMap.get("price");
                     String description = (String) hashMap.get("description");
                     SmartPhones smartPhones = new SmartPhones(pid, pname, price, description, mUri);
                     mSmartPhones.add(smartPhones);
                     myRecyclerViewAdapter.notifyDataSetChanged();
-
 
                 }
             }

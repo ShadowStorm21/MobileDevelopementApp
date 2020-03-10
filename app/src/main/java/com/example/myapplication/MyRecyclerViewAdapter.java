@@ -48,11 +48,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.imageView.setImageURI(smartPhone.getmPic());
 // this will be changed also
 
-        if (smartPhone.getmProductId().equals("p1")) {
-            FirebaseStorage.getInstance().getReference("s20.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        if (!smartPhone.getmProductId().isEmpty()) {
+            FirebaseStorage.getInstance().getReference(smartPhone.getmProductId() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-
 
                     Picasso.get().load(uri).into(holder.imageView);
 
