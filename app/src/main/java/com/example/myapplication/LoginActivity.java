@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FirebaseApp.initializeApp(this);
+
         mUsername = findViewById(R.id.editTextUseraname);
         mPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id"); // get the user_id from previous activity
         customers = new ArrayList<>();
+        customers.clear();
         getCustomerDetails();
 
 

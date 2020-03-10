@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.SmartPhones;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -33,14 +35,15 @@ import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
 
-
+    private Boolean X = false;
     private RecyclerView recyclerView;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private ArrayList<SmartPhones> mSmartPhones = new ArrayList<>();
     private Uri mUri;
     private Intent mIntent;
-    private String username,id,pid,pname;
+    private String username, id, pid, pname;
     private Long price;
+    private ValueEventListener valueEventListener;
 
     // this might be changed later also
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
@@ -52,14 +55,14 @@ public class HomeFragment extends Fragment {
             SmartPhones mSmartPhone = mSmartPhones.get(position);
             Intent intent = new Intent(getActivity(), OrderActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable("smartphones",mSmartPhones);
+            bundle.putSerializable("smartphones", mSmartPhones);
             intent.putExtras(bundle);
-            intent.putExtra("position",position);
-            intent.putExtra("username",username);
-            intent.putExtra("pname",pname);
-            intent.putExtra("pid",pid);
-            intent.putExtra("id",id);
-            intent.putExtra("price",price);
+            intent.putExtra("position", position);
+            intent.putExtra("username", username);
+            intent.putExtra("pname", pname);
+            intent.putExtra("pid", pid);
+            intent.putExtra("id", id);
+            intent.putExtra("price", price);
             startActivity(intent);
 
 
@@ -73,7 +76,7 @@ public class HomeFragment extends Fragment {
         mIntent = getActivity().getIntent();
         username = mIntent.getStringExtra("currentUser");
         id = mIntent.getStringExtra("id");
-        Log.e("user",username+id);
+        Log.e("user", username + id);
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(mSmartPhones);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         myRecyclerViewAdapter.setOnItemClickListener(onItemClickListener);
@@ -81,24 +84,25 @@ public class HomeFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(myRecyclerViewAdapter);
         getProducts();
+        meow();
         return root;
     }
 
-    private void getProducts()
-    {
+    private void getProducts() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference("Products").addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot products : dataSnapshot.getChildren())
-                {
-                    HashMap<String,Object> hashMap = (HashMap) products.getValue();
-                     pid = (String) hashMap.get("id");
+                X = true;
+                for (DataSnapshot products : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> hashMap = (HashMap) products.getValue();
+                    pid = (String) hashMap.get("id");
                     pname = (String) hashMap.get("name");
                     price = (Long) hashMap.get("price");
                     String description = (String) hashMap.get("description");
-                    SmartPhones smartPhones = new SmartPhones(pid,pname,price,description,mUri);
+                    SmartPhones smartPhones = new SmartPhones(pid, pname, price, description, mUri);
                     mSmartPhones.add(smartPhones);
                     myRecyclerViewAdapter.notifyDataSetChanged();
 
@@ -108,12 +112,28 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                X = true;
             }
+
         });
 
 
+    }
 
+    private void meow() {
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                Toast.makeText(getActivity(), connected + "", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled");
+            }
+        });
 
 
     }

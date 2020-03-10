@@ -50,7 +50,6 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
     public void onBindViewHolder(@NonNull final MyCartRecyclerViewAdapter.ViewHolder holder, int position) {
 
         Cart item = items.get(position);
-
         holder.mTitle.setText(item.getProduct_name());
         holder.mPrice.setText(item.getPrice()+"$");
         holder.mImageView.setImageURI(item.getUri());

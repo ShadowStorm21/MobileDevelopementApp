@@ -52,6 +52,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         customers = new ArrayList<>();
         buttonDate.setOnClickListener(this);
         buttonRegister.setOnClickListener(this);
+        customers.clear();
         getUsers();
 
 
