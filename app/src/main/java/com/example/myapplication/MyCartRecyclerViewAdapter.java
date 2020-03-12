@@ -50,49 +50,26 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
     public void onBindViewHolder(@NonNull final MyCartRecyclerViewAdapter.ViewHolder holder, int position) {
 
         Cart item = items.get(position);
-        holder.mTitle.setText(item.getProduct_name());
-        holder.mPrice.setText(item.getPrice()+"$");
-        holder.mImageView.setImageURI(item.getUri());
-
-
-        if (item.getProduct_name().equalsIgnoreCase("Samsung Galaxy S20")) {
-            FirebaseStorage.getInstance().getReference("s20.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-
-
-                    Picasso.get().load(uri).into(holder.mImageView);
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                    //profilePic.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
-            });
-
-
-
+        if(item != null) {
+            holder.mTitle.setText(item.getProduct_name());
+            holder.mPrice.setText(String.valueOf(item.getPrice()));
+            if (item.getUri() != null)
+                holder.mImageView.setImageURI(item.getUri());
+            Picasso.get().load(item.getUri()).into(holder.mImageView);
         }
         else
         {
-            FirebaseStorage.getInstance().getReference("iphone.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-
-
-                    Picasso.get().load(uri).into(holder.mImageView);
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                    //profilePic.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
-            });
+            holder.mPrice.setText("No items Avaliable");
         }
+
+
+
+
+
+
+
+
+
     }
 
     @Override

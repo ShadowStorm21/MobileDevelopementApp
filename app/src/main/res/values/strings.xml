@@ -6,6 +6,7 @@
     <string name="nav_header_subtitle">The Land of Parts</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">App Settings</string>
+    <string name="content" translatable="false">Your Item has been Ordered Successfully</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">My Orders</string>

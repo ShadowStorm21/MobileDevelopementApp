@@ -46,6 +46,7 @@
         style="@android:style/Widget.Holo.RatingBar.Indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:maxHeight="57dip" />
 
     <LinearLayout
@@ -60,6 +61,7 @@
 
             android:fontFamily="@font/comfortaa"
             android:text="TextView"
+            android:textAlignment="center"
             android:textSize="18sp" />
 
         <TextView
@@ -69,6 +71,7 @@
 
             android:fontFamily="@font/comfortaa"
             android:text="Review"
+            android:textAlignment="center"
             android:textSize="18sp" />
     </LinearLayout>
 

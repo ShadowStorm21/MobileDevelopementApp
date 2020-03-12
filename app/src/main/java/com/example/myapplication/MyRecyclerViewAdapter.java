@@ -56,35 +56,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     Picasso.get().load(uri).into(holder.imageView);
 
                 }
+
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                    //profilePic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                public void onFailure(@NonNull Exception e) {
+                    // set default img
                 }
             });
 
 
 
         }
-        else
-        {
-            FirebaseStorage.getInstance().getReference("iphone.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
 
-
-                    Picasso.get().load(uri).into(holder.imageView);
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any errors
-                    //profilePic.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
-            });
-        }
 
 
 
