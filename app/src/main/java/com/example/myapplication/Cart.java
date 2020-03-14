@@ -27,6 +27,10 @@ public class Cart  {
         return product_id.equals(  ((Cart) cart).product_id );
     }
 
+    public Cart(String product_id) {
+        this.product_id = product_id;
+    }
+
     @Override // this method for Hashmap , hash test will be base on product_id
     public int hashCode(){
         return this.product_id.hashCode();

@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +23,11 @@ import java.util.ArrayList;
 public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Cart> items = new ArrayList<>();
+    private Button removeBtn,incBtn,decInt;
+
+    public void setItems(ArrayList<Cart> items) {
+        this.items = items;
+    }
 
     public MyCartRecyclerViewAdapter(ArrayList<Cart> items) {
         this.items = items;
@@ -28,15 +35,16 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder
    {
-       public TextView mPrice,mTitle,productQuantity;
+       public TextView mPrice,mTitle,productQuantity,mId;
        public ImageView mImageView;
 
-       public ViewHolder(@NonNull View itemView) {
+       public ViewHolder(@NonNull final View itemView) {
            super(itemView);
            mPrice = itemView.findViewById(R.id.textViewCartPrice);
            mTitle = itemView.findViewById(R.id.textViewCartTitle);
            mImageView = itemView.findViewById(R.id.imageViewCart);
            productQuantity = itemView.findViewById(R.id.tvQuantity);
+           mId = itemView.findViewById(R.id.tvId);
        }
    }
     @NonNull
@@ -50,22 +58,22 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
     @Override
     public void onBindViewHolder(@NonNull final MyCartRecyclerViewAdapter.ViewHolder holder, int position) {
 
-        Cart item = items.get(position);
-        if(item != null) {
+        final Cart item = items.get(position);
+        if(item == null) {
+            holder.mPrice.setText("No items Avaliable");
+            return;
+        }
             holder.mTitle.setText(item.getProduct_name());
             holder.mPrice.setText(String.valueOf(item.getPrice()));
-            if (item.getUri() != null)
-                holder.mImageView.setImageURI(item.getUri());
-            Picasso.get().load(item.getUri()).into(holder.mImageView);
-
+            holder.mId.setText(item.getProduct_id());
             Integer quantitiy = CartActivity.findProduct(item);
+            if (item.getUri() != null) {
+                holder.mImageView.setImageURI(item.getUri());
+                Picasso.get().load(item.getUri()).into(holder.mImageView);
+            }
             if(quantitiy != null)
                 holder.productQuantity.setText(quantitiy + "");
-        }
-        else
-        {
-            holder.mPrice.setText("No items Avaliable");
-        }
+
 
     }
 

@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,9 +75,9 @@ public class CartActivity extends AppCompatActivity {
 
         totalPrice = findViewById(R.id.tvPrice);
         recyclerView = findViewById(R.id.cartRecyclerView);
-        layoutManager = new LinearLayoutManager(this);
+        btnRemoveItem = findViewById(R.id.btRemove);
 
-        Log.e("Hashing " , products.toString());
+        layoutManager = new LinearLayoutManager(this);
 
         myCartRecyclerViewAdapter = new MyCartRecyclerViewAdapter( new ArrayList<Cart>(products.keySet()));
         myCartRecyclerViewAdapter.notifyDataSetChanged();
@@ -143,7 +145,6 @@ public class CartActivity extends AppCompatActivity {
         Toast.makeText(this, "productname"+mPname, Toast.LENGTH_SHORT).show();
 
 
-
     }
 
     private void setViews()
@@ -198,11 +199,48 @@ public class CartActivity extends AppCompatActivity {
         return Math.round(total);
     }
 
-    public void increaseQuantity(View view,int position) {
+    public void removeItem(View view) {
+        LinearLayout x = (LinearLayout) view.getParent().getParent();
+        TextView id = x.findViewById(R.id.tvId);
 
+        // creating Cart with product id is ok for searching from the hashmap only
+        // since the hashmap hash by product id
+        products.remove(new Cart(id.getText().toString()) );
+        myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
+        myCartRecyclerViewAdapter.notifyDataSetChanged();
+        totalPrice.setText(getPrice() + "$");
+    }
+
+    public void increaseQuantity(View view) {
+        LinearLayout x = (LinearLayout) view.getParent().getParent().getParent();
+        TextView id = x.findViewById(R.id.tvId);
+
+        Cart key = new Cart(id.getText().toString() );
+        Integer quan =  products.get(key);
+        ++quan;
+        products.put(key,quan);
+        totalPrice.setText(getPrice() + "$");
+        myCartRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     public void decreaseQuantity(View view) {
+        LinearLayout x = (LinearLayout) view.getParent().getParent().getParent();
+        TextView id = x.findViewById(R.id.tvId);
+
+        Cart key = new Cart(id.getText().toString() );
+        Integer quan =  products.get(key);
+        --quan;
+        if(quan == 0){
+            // remove the item
+            products.remove(key);
+            myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
+            myCartRecyclerViewAdapter.notifyDataSetChanged();
+            totalPrice.setText("0$");
+            return;
+        }
+        products.put(key,quan);
+        totalPrice.setText(getPrice() + "$");
+        myCartRecyclerViewAdapter.notifyDataSetChanged();
     }
 }
 

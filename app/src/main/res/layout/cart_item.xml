@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:keepScreenOn="false"
@@ -15,11 +16,18 @@
 
         <ImageView
             android:id="@+id/imageViewCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
+            android:layout_width="60dp"
+            android:layout_height="100dp"
+            android:layout_weight="0.68"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_smartphone_black_24dp" />
+
+        <TextView
+            android:id="@+id/tvId"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0"
+            tools:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -51,6 +59,7 @@
                 android:id="@+id/btRemove"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="removeItem"
                 android:text="Remove"
                 android:textSize="12sp" />
 
@@ -60,7 +69,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/btDec"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:layout_gravity="center"
@@ -85,7 +94,7 @@
                     android:text="1" />
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/btInc"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:layout_gravity="center"
