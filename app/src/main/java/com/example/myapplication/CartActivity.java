@@ -60,7 +60,6 @@ public class CartActivity extends AppCompatActivity {
 
 
             Cart item = new Cart(id, username, mPid, mPrice, mPname,mUri);
-            cartArrayList.add(item);
             Integer quan =  products.get(item);
             if(quan == null)
                 products.put(item,1);
