@@ -1,14 +1,36 @@
 package com.example.myapplication;
 
+import android.media.audiofx.Equalizer;
 import android.net.Uri;
+import android.util.Log;
 
-public class Cart {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Cart  {
     private String user_id;
     private String username;
     private String product_id;
     private double price;
     private String product_name;
     private Uri uri;
+
+
+    @Override  // this method for Hashmap , Key test will be base on product_id
+    public boolean equals(Object cart){
+        if (this == cart)
+            return true;
+        if (cart == null)
+            return false;
+        if (getClass() != cart.getClass())
+            return false;
+        return product_id.equals(  ((Cart) cart).product_id );
+    }
+
+    @Override // this method for Hashmap , hash test will be base on product_id
+    public int hashCode(){
+        return this.product_id.hashCode();
+    }
 
     public Cart(String user_id, String username, String product_id, double price, String product_name,Uri uri) {
         this.user_id = user_id;

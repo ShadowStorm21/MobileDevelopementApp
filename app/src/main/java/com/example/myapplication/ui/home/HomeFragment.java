@@ -59,13 +59,11 @@ public class HomeFragment extends Fragment {
             intent.putExtras(bundle);
             intent.putExtra("position", position);
             intent.putExtra("username", username);
-            intent.putExtra("pname", pname);
-            intent.putExtra("pid", pid);
+            intent.putExtra("pname", mSmartPhone.getmName());
+            intent.putExtra("pid", mSmartPhone.getmProductId());
             intent.putExtra("id", id);
-            intent.putExtra("price", price);
+            intent.putExtra("price", mSmartPhone.getmPrice());
             startActivity(intent);
-
-
         }
     };
 
@@ -105,7 +103,6 @@ public class HomeFragment extends Fragment {
                     SmartPhones smartPhones = new SmartPhones(pid, pname, price, description, mUri);
                     mSmartPhones.add(smartPhones);
                     myRecyclerViewAdapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -125,7 +122,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 boolean connected = snapshot.getValue(Boolean.class);
-                Toast.makeText(getActivity(), connected + "", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), connected + "", Toast.LENGTH_SHORT).show();
             }
 
             @Override

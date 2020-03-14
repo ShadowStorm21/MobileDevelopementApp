@@ -128,7 +128,7 @@ public class OrderActivity extends AppCompatActivity {
                 intent1.putExtra("username",username);
                 intent1.putExtra("pname",pname);
                 intent1.putExtra("uri",String.valueOf(mUri));
-                Toast.makeText(this, "uri"+String.valueOf(mUri), Toast.LENGTH_SHORT).show();
+                //Text(this, "uri"+String.valueOf(mUri), Toast.LENGTH_SHORT).show();
                 intent1.putExtra("price",mPrice);
                 intent1.putExtra("pid",pid);
                 startActivity(intent1);

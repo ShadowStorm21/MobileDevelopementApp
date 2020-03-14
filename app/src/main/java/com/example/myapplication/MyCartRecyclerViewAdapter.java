@@ -28,7 +28,7 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder
    {
-       public TextView mPrice,mTitle;
+       public TextView mPrice,mTitle,productQuantity;
        public ImageView mImageView;
 
        public ViewHolder(@NonNull View itemView) {
@@ -36,6 +36,7 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
            mPrice = itemView.findViewById(R.id.textViewCartPrice);
            mTitle = itemView.findViewById(R.id.textViewCartTitle);
            mImageView = itemView.findViewById(R.id.imageViewCart);
+           productQuantity = itemView.findViewById(R.id.tvQuantity);
        }
    }
     @NonNull
@@ -56,19 +57,15 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
             if (item.getUri() != null)
                 holder.mImageView.setImageURI(item.getUri());
             Picasso.get().load(item.getUri()).into(holder.mImageView);
+
+            Integer quantitiy = CartActivity.findProduct(item);
+            if(quantitiy != null)
+                holder.productQuantity.setText(quantitiy + "");
         }
         else
         {
             holder.mPrice.setText("No items Avaliable");
         }
-
-
-
-
-
-
-
-
 
     }
 
