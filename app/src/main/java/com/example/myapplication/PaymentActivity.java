@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.myapplication.ui.Orders.OrdersFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -61,7 +63,7 @@ public class PaymentActivity extends AppCompatActivity {
                     return;
                 errMsg.setText("");
 
-                Intent intent = new Intent(PaymentActivity.this, Orders.class);
+                Intent intent = new Intent(PaymentActivity.this, OrdersFragment.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(PaymentActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 String CHANNEL_ID="LOLW";
                 NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,"XD", NotificationManager.IMPORTANCE_LOW);
@@ -78,7 +80,6 @@ public class PaymentActivity extends AppCompatActivity {
 
                 insertRecordDatabase();
 
-                getParent().finish();
                 finish();
                 startActivity(intent);
             }
@@ -146,7 +147,9 @@ public class PaymentActivity extends AppCompatActivity {
 
         String username = cartIntent.getStringExtra("username"),
                 uuidOrder = java.util.UUID.randomUUID().toString(),
-                uid = cartIntent.getStringExtra("uid");
+                uid = cartIntent.getStringExtra("id");
+
+        Log.e("User", uid + " And " + username);
 
         HashMap<Cart,Integer> products = CartActivity.getProducts(); // get all products from the cart
         ArrayList<String> productsId = new ArrayList<>();

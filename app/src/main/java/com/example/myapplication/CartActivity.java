@@ -53,16 +53,15 @@ public class CartActivity extends AppCompatActivity {
         Intent intent = getIntent();
         setTitle("My Cart");
 
+        username = intent.getStringExtra("username");
+        id = intent.getStringExtra("id");
+
         // user clicked on product and the new intent carried data
-        if(intent.hasExtra("username")){
-            username = intent.getStringExtra("username");
-            id = intent.getStringExtra("id");
+        if(intent.hasExtra("pid")){
             mPid = intent.getStringExtra("pid");
             mPname = intent.getStringExtra("pname");
             mPrice = intent.getDoubleExtra("price", 0);
             mUri = Uri.parse(intent.getStringExtra("uri"));
-            //Toast.makeText(CartActivity.this, "userid"+username+id+mPid+mPname+mPrice+mUri, Toast.LENGTH_LONG).show();
-
 
             Cart item = new Cart(id, username, mPid, mPrice, mPname,mUri);
             Integer quan =  products.get(item);
@@ -75,6 +74,7 @@ public class CartActivity extends AppCompatActivity {
 
         }
         else { } // user clicked on cart icon , no data carried
+
 
         totalPrice = findViewById(R.id.tvPrice);
         recyclerView = findViewById(R.id.cartRecyclerView);
@@ -105,8 +105,6 @@ public class CartActivity extends AppCompatActivity {
                     intent1.putExtra("username",username);
                     intent1.putExtra("pid",mPid);
                     startActivity(intent1);
-
-
                 }
                 else
                 {

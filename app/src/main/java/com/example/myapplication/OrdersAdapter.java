@@ -26,8 +26,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            order_id = itemView.findViewById(R.id.textViewOrder_id);
-            price = itemView.findViewById(R.id.textViewOrder);
+            order_id = itemView.findViewById(R.id.tvOrderID);
+            price = itemView.findViewById(R.id.tvTotalPrice);
 
         }
     }

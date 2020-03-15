@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.Orders;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,6 @@ public class OrdersFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(ordersAdapter);
 
-
         getOrders();
 
         return root;
@@ -64,12 +64,16 @@ public class OrdersFragment extends Fragment {
                 for(DataSnapshot orders : dataSnapshot.getChildren())
                 {
                    HashMap hashMap =  (HashMap) orders.getValue();
+                   /*
                     if(hashMap != null) {
                         price = (Double) hashMap.get("price");
                         Orders mOrder = new Orders(hashMap.get("order_id").toString(), "1", hashMap.get("user_name").toString(), price);
                         ordersArrayList.add(mOrder);
                         ordersAdapter.notifyDataSetChanged();
                     }
+
+                    */
+                    Log.e("DATA",hashMap.toString());
                 }
             }
 
