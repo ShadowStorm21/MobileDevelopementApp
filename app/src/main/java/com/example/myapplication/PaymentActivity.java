@@ -120,11 +120,11 @@ public class PaymentActivity extends AppCompatActivity {
         }
         if(CVV.length() != 3){
             errMsg.setText("CVV must be 3 Numbers");
-            return false;
+        return false;
         }
         if(year < curYear || month < curMonth){
             errMsg.setText("Your Card is expired!");
-            return false;
+        return false;
         }
 
         return true;
