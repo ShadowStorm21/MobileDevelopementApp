@@ -124,7 +124,7 @@ public class OrderActivity extends AppCompatActivity {
     private void SendData()
     {
                 Intent intent1 = new Intent(OrderActivity.this,CartActivity.class);
-                intent1.putExtra("userid",id);
+                intent1.putExtra("id",id);
                 intent1.putExtra("username",username);
                 intent1.putExtra("pname",pname);
                 intent1.putExtra("uri",String.valueOf(mUri));
