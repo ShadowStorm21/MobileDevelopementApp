@@ -64,8 +64,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 }
             });
 
-
-
         }
 
 

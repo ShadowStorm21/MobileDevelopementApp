@@ -56,8 +56,8 @@ public class OrderActivity extends AppCompatActivity {
         final Intent intent = getIntent();
        Bundle bundle = intent.getExtras();
        position = intent.getIntExtra("position",0);
-       username = intent.getStringExtra("username");
-       id = intent.getStringExtra("id");
+       username = LoginActivity.getUsername();
+       id = LoginActivity.getId();
        smartPhone = (ArrayList<SmartPhones>) bundle.getSerializable("smartphones") ;
        pid = intent.getStringExtra("pid");
        mPrice = intent.getDoubleExtra("price",0);             // get all values from previous activity
@@ -124,15 +124,12 @@ public class OrderActivity extends AppCompatActivity {
     private void SendData()
     {
                 Intent intent1 = new Intent(OrderActivity.this,CartActivity.class);
-                intent1.putExtra("id",id);
-                intent1.putExtra("username",username);
                 intent1.putExtra("pname",pname);
                 intent1.putExtra("uri",String.valueOf(mUri));
                 //Text(this, "uri"+String.valueOf(mUri), Toast.LENGTH_SHORT).show();
                 intent1.putExtra("price",mPrice);
                 intent1.putExtra("pid",pid);
                 startActivity(intent1);
-
     }
 
 

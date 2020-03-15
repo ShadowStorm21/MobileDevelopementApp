@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.LoginActivity;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.MyRecyclerViewAdapter;
 import com.example.myapplication.OrderActivity;
@@ -58,10 +59,8 @@ public class HomeFragment extends Fragment {
             bundle.putSerializable("smartphones", mSmartPhones);
             intent.putExtras(bundle);
             intent.putExtra("position", position);
-            intent.putExtra("username", username);
             intent.putExtra("pname", mSmartPhone.getmName());
             intent.putExtra("pid", mSmartPhone.getmProductId());
-            intent.putExtra("id", id);
             intent.putExtra("price", mSmartPhone.getmPrice());
             startActivity(intent);
         }
@@ -72,8 +71,8 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recycler);
         mIntent = getActivity().getIntent();
-        username = mIntent.getStringExtra("currentUser");
-        id = mIntent.getStringExtra("id");
+        username = LoginActivity.getUsername();
+        id = LoginActivity.getId();
         Log.e("user", username + id);
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(mSmartPhones);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -82,7 +81,6 @@ public class HomeFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(myRecyclerViewAdapter);
         getProducts();
-        meow();
         return root;
     }
 
@@ -116,21 +114,4 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void meow() {
-        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-        connectedRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                boolean connected = snapshot.getValue(Boolean.class);
-                //Toast.makeText(getActivity(), connected + "", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                System.err.println("Listener was cancelled");
-            }
-        });
-
-
-    }
 }

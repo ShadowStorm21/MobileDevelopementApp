@@ -53,8 +53,8 @@ public class CartActivity extends AppCompatActivity {
         Intent intent = getIntent();
         setTitle("My Cart");
 
-        username = intent.getStringExtra("username");
-        id = intent.getStringExtra("id");
+        username = LoginActivity.getUsername();
+        id = LoginActivity.getId();
 
         // user clicked on product and the new intent carried data
         if(intent.hasExtra("pid")){

@@ -63,7 +63,7 @@ public class PaymentActivity extends AppCompatActivity {
                     return;
                 errMsg.setText("");
 
-                Intent intent = new Intent(PaymentActivity.this, OrdersFragment.class);
+                Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(PaymentActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 String CHANNEL_ID="LOLW";
                 NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,"XD", NotificationManager.IMPORTANCE_LOW);
@@ -145,9 +145,10 @@ public class PaymentActivity extends AppCompatActivity {
 
         Intent cartIntent = getIntent();
 
-        String username = cartIntent.getStringExtra("username"),
+        String username = LoginActivity.getUsername(),
                 uuidOrder = java.util.UUID.randomUUID().toString(),
-                uid = cartIntent.getStringExtra("id");
+                uid = LoginActivity.getId(),
+                paymentOption = paymentOptions.getCheckedRadioButtonId() == R.id.rbCash ? "Cash" : "Visa";
 
         Log.e("User", uid + " And " + username);
 
@@ -161,7 +162,7 @@ public class PaymentActivity extends AppCompatActivity {
         CartActivity.getProducts().clear();     // delete all products from the cart after ordering
 
         Double totalPrice = getIntent().getDoubleExtra("total",0);
-        Orders customerOrder = new Orders(uuidOrder,uid,username,totalPrice,productsId);
+        Orders customerOrder = new Orders(uuidOrder,uid,username,totalPrice,productsId,paymentOption);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Orders").child(uuidOrder);

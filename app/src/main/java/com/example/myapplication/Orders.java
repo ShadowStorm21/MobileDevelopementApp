@@ -9,24 +9,23 @@ public class Orders {
     private String user_name;
     private Double price;
     private ArrayList<String> productsId;
+    private String paymentOption;
 
     public ArrayList<String> getProductsId() {
         return productsId;
     }
 
-    public Orders(String order_id, String user_id, String user_name, Double price, ArrayList<String> productsId) {
+    public Orders(String order_id, String user_id, String user_name, Double price, ArrayList<String> productsId, String paymentOption) {
         this.order_id = order_id;
         this.user_id = user_id;
         this.user_name = user_name;
         this.price = price;
         this.productsId = productsId;
+        this.paymentOption = paymentOption;
     }
 
-    public Orders(String order_id, String user_id, String user_name, Double price) {
-        this.order_id = order_id;
-        this.user_id = user_id;
-        this.user_name = user_name;
-        this.price = price;
+    public String getPaymentOption() {
+        return paymentOption;
     }
 
     public Orders() {
@@ -63,4 +62,7 @@ public class Orders {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+
 }
+

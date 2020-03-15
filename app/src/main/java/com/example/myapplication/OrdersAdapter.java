@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
 
-    private ArrayList<Orders> ordersArrayList = new ArrayList<>();
+    private ArrayList<Orders> ordersArrayList;
     private Context context;
 
     public OrdersAdapter(ArrayList<Orders> ordersArrayList) {
@@ -22,13 +22,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView order_id,price;
+        public TextView order_id,price,products,paymentOptions;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             order_id = itemView.findViewById(R.id.tvOrderID);
             price = itemView.findViewById(R.id.tvTotalPrice);
-
+            products = itemView.findViewById(R.id.tvProducts);
+            paymentOptions = itemView.findViewById(R.id.tvPaymentMethod);
         }
     }
     @NonNull
@@ -47,7 +48,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         if(orders.getOrder_id() != null)
         {
             holder.order_id.setText("OrderID : "+orders.getOrder_id());
-            holder.price.setText("Price : "+ orders.getPrice());
+            holder.price.setText("Price : "+ orders.getPrice() + " $ ");
+            holder.products.setText( orders.getProductsId().toString());
+            holder.paymentOptions.setText("Via: " + orders.getPaymentOption());
         }
         else
         {

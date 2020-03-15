@@ -36,6 +36,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin,buttonClear;
     private ArrayList<Customer> customers;
     private TextView textViewSignup;
+
+    private static String userName,uid;
+    public static String getUsername() { return userName;}
+    public static String getId() {return uid; }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonClear = findViewById(R.id.buttonClear);
         textViewSignup = findViewById(R.id.textViewSignup);
         Intent intent = getIntent();
-        id = intent.getStringExtra("id"); // get the user_id from previous activity
+        id = LoginActivity.getId();
         customers = new ArrayList<>();
         customers.clear();
         getCustomerDetails();
@@ -143,10 +148,10 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 currentUser = customers.get(i).getName();
                 id = customers.get(i).getId();
-                intent.putExtra("currentUser",currentUser);
-                intent.putExtra("id",id);
                 flag = 1;
                 startActivity(intent);
+                userName = currentUser;
+                uid = id;
                 finish();
             }
         }

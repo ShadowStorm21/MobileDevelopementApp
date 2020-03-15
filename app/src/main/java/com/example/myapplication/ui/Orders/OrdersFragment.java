@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.Orders;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.LoginActivity;
 import com.example.myapplication.Orders;
 import com.example.myapplication.OrdersAdapter;
 import com.example.myapplication.R;
@@ -36,7 +38,8 @@ public class OrdersFragment extends Fragment {
     private ArrayList<Orders> ordersArrayList;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView recyclerView;
-    private Double price;
+
+    private String username,id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class OrdersFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(ordersAdapter);
 
+        username = LoginActivity.getUsername();
+        id = LoginActivity.getId();
         getOrders();
 
         return root;
@@ -64,16 +69,21 @@ public class OrdersFragment extends Fragment {
                 for(DataSnapshot orders : dataSnapshot.getChildren())
                 {
                    HashMap hashMap =  (HashMap) orders.getValue();
-                   /*
-                    if(hashMap != null) {
-                        price = (Double) hashMap.get("price");
-                        Orders mOrder = new Orders(hashMap.get("order_id").toString(), "1", hashMap.get("user_name").toString(), price);
-                        ordersArrayList.add(mOrder);
-                        ordersAdapter.notifyDataSetChanged();
-                    }
 
-                    */
-                    Log.e("DATA",hashMap.toString());
+                   // order associated with the current user
+                   if(id.equals(hashMap.get("user_id").toString())) {
+                       Long price = (Long) hashMap.get("price");
+                       Orders mOrder = new Orders(
+                               hashMap.get("order_id").toString(),
+                               id,username,
+                               price.doubleValue(),
+                               (ArrayList<String>) hashMap.get("productsId"),
+                               hashMap.get("paymentOption").toString()
+                       );
+                       ordersArrayList.add(mOrder);
+                       ordersAdapter.notifyDataSetChanged();
+                   }
+
                 }
             }
 
