@@ -75,7 +75,6 @@ public class CartActivity extends AppCompatActivity {
 
         totalPrice = findViewById(R.id.tvPrice);
         recyclerView = findViewById(R.id.cartRecyclerView);
-        btnRemoveItem = findViewById(R.id.btRemove);
 
         layoutManager = new LinearLayoutManager(this);
 
@@ -204,7 +203,7 @@ public class CartActivity extends AppCompatActivity {
         TextView id = x.findViewById(R.id.tvId);
 
         // creating Cart with product id is ok for searching from the hashmap only
-        // since the hashmap hash by product id
+        // since the hashmap hashes by product id
         products.remove(new Cart(id.getText().toString()) );
         myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
         myCartRecyclerViewAdapter.notifyDataSetChanged();
@@ -235,7 +234,7 @@ public class CartActivity extends AppCompatActivity {
             products.remove(key);
             myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
             myCartRecyclerViewAdapter.notifyDataSetChanged();
-            totalPrice.setText("0$");
+            totalPrice.setText(getPrice() + "$");
             return;
         }
         products.put(key,quan);
