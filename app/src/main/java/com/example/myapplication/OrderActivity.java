@@ -46,7 +46,7 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
         header = findViewById(R.id.textViewTitle);
-        price = findViewById(R.id.textViewPrice);
+        price = findViewById(R.id.textViewPriceOrder);
         headImg = findViewById(R.id.imageViewHeader);
         description = findViewById(R.id.textViewDescription);
         addToCart = findViewById(R.id.buttonAddToCart);

@@ -78,7 +78,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/textViewPrice"
+                android:id="@+id/textViewPriceOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="22dp"
