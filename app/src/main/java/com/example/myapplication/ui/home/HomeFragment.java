@@ -7,17 +7,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.Adapters.MyRecyclerViewAdapter;
+import com.example.myapplication.LoginActivity;
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.MyRecyclerViewAdapter;
 import com.example.myapplication.OrderActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.Classes.SmartPhones;
+import com.example.myapplication.SmartPhones;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,8 +44,9 @@ public class HomeFragment extends Fragment {
     private Intent mIntent;
     private String username, id, pid, pname;
     private Double price;
+    private ValueEventListener valueEventListener;
 
-
+    // this might be changed later also
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -51,10 +59,8 @@ public class HomeFragment extends Fragment {
             bundle.putSerializable("smartphones", mSmartPhones);
             intent.putExtras(bundle);
             intent.putExtra("position", position);
-            intent.putExtra("username", username);
             intent.putExtra("pname", mSmartPhone.getmName());
             intent.putExtra("pid", mSmartPhone.getmProductId());
-            intent.putExtra("id", id);
             intent.putExtra("price", mSmartPhone.getmPrice());
             startActivity(intent);
         }
@@ -65,8 +71,8 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recycler);
         mIntent = getActivity().getIntent();
-        username = mIntent.getStringExtra("currentUser");
-        id = mIntent.getStringExtra("id");
+        username = LoginActivity.getUsername();
+        id = LoginActivity.getId();
         Log.e("user", username + id);
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(mSmartPhones);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -75,7 +81,6 @@ public class HomeFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(myRecyclerViewAdapter);
         getProducts();
-
         return root;
     }
 
@@ -86,7 +91,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                X = true;
                 for (DataSnapshot products : dataSnapshot.getChildren()) {
                     HashMap<String, Object> hashMap = (HashMap) products.getValue();
                     pid = hashMap.get("id").toString();
@@ -101,16 +106,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                X = true;
             }
 
         });
 
 
     }
-
-
-
-
 
 }

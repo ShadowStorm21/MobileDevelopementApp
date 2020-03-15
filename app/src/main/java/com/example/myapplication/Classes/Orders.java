@@ -1,17 +1,31 @@
-package com.example.myapplication.Classes;
+package com.example.myapplication;
+
+import java.util.ArrayList;
 
 public class Orders {
 
     private String order_id;
     private String user_id;
     private String user_name;
-    private double price;
+    private Double price;
+    private ArrayList<String> productsId;
+    private String paymentOption;
 
-    public Orders(String order_id, String user_id, String user_name, double price) {
+    public ArrayList<String> getProductsId() {
+        return productsId;
+    }
+
+    public Orders(String order_id, String user_id, String user_name, Double price, ArrayList<String> productsId, String paymentOption) {
         this.order_id = order_id;
         this.user_id = user_id;
         this.user_name = user_name;
         this.price = price;
+        this.productsId = productsId;
+        this.paymentOption = paymentOption;
+    }
+
+    public String getPaymentOption() {
+        return paymentOption;
     }
 
     public Orders() {
@@ -41,11 +55,14 @@ public class Orders {
         this.user_name = user_name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
+
+
 }
+

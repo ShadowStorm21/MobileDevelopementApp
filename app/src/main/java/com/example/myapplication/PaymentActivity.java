@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +18,16 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.myapplication.ui.Orders.OrdersFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PaymentActivity extends AppCompatActivity {
     private Button pay,clear;
@@ -73,6 +80,8 @@ public class PaymentActivity extends AppCompatActivity {
 
                 insertRecordDatabase();
 
+                finish();
+                startActivity(intent);
             }
         });
 
@@ -132,9 +141,32 @@ public class PaymentActivity extends AppCompatActivity {
 
 
     private void insertRecordDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
 
-        String uid,username;
+
+        Intent cartIntent = getIntent();
+
+        String username = LoginActivity.getUsername(),
+                uuidOrder = java.util.UUID.randomUUID().toString(),
+                uid = LoginActivity.getId(),
+                paymentOption = paymentOptions.getCheckedRadioButtonId() == R.id.rbCash ? "Cash" : "Visa";
+
+        Log.e("User", uid + " And " + username);
+
+        HashMap<Cart,Integer> products = CartActivity.getProducts(); // get all products from the cart
+        ArrayList<String> productsId = new ArrayList<>();
+
+        // copy id from each cart
+        for (Map.Entry<Cart, Integer> entry : products.entrySet())
+            productsId.add( entry.getKey().getProduct_id() );
+
+        CartActivity.getProducts().clear();     // delete all products from the cart after ordering
+
+        Double totalPrice = getIntent().getDoubleExtra("total",0);
+        Orders customerOrder = new Orders(uuidOrder,uid,username,totalPrice,productsId,paymentOption);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Orders").child(uuidOrder);
+
+        myRef.setValue(customerOrder);
     }
 }

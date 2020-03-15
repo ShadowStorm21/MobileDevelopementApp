@@ -38,6 +38,10 @@ public class CartActivity extends AppCompatActivity {
         return products.get(cart);
     }
 
+    public static HashMap<Cart, Integer> getProducts() {
+        return products;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +50,11 @@ public class CartActivity extends AppCompatActivity {
         Intent intent = getIntent();
         setTitle("My Cart");
 
+        username = LoginActivity.getUsername();
+        id = LoginActivity.getId();
+
         // user clicked on product and the new intent carried data
-        if(intent.hasExtra("username")){
-            username = intent.getStringExtra("username");
-            id = intent.getStringExtra("id");
+        if(intent.hasExtra("pid")){
             mPid = intent.getStringExtra("pid");
             mPname = intent.getStringExtra("pname");
             mPrice = intent.getDoubleExtra("price", 0);
@@ -66,6 +71,7 @@ public class CartActivity extends AppCompatActivity {
 
         }
         else { } // user clicked on cart icon , no data carried
+
 
         totalPrice = findViewById(R.id.tvPrice);
         recyclerView = findViewById(R.id.cartRecyclerView);
@@ -163,7 +169,7 @@ public class CartActivity extends AppCompatActivity {
             products.remove(key);
             myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
             myCartRecyclerViewAdapter.notifyDataSetChanged();
-            totalPrice.setText("0$");
+            totalPrice.setText( getPrice() + "$");
             return;
         }
         products.put(key,quan);
