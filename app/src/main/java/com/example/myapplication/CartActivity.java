@@ -31,10 +31,9 @@ public class CartActivity extends AppCompatActivity {
     private Double mPrice;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = database.getReference("Cart");
     private TextView totalPrice;
     private Uri mUri;
+    private Button mCheckout;
 
 
     private static HashMap<Cart,Integer> products = new HashMap<>();
@@ -75,7 +74,8 @@ public class CartActivity extends AppCompatActivity {
 
         totalPrice = findViewById(R.id.tvPrice);
         recyclerView = findViewById(R.id.cartRecyclerView);
-        btnRemoveItem = findViewById(R.id.btRemove);
+        mCheckout = findViewById(R.id.buttonCheckout);
+
 
         layoutManager = new LinearLayoutManager(this);
 
@@ -88,94 +88,29 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setAdapter(myCartRecyclerViewAdapter);
 
         totalPrice.setText( getPrice() + " $");
-    }
+
+        mCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(getPrice() != 0)
+                {
+                    Intent intent1 = new Intent(CartActivity.this,PaymentActivity.class);
+                    intent1.putExtra("total",getPrice());
+                    intent1.putExtra("id",id);
+                    intent1.putExtra("username",username);
+                    intent1.putExtra("pid",mPid);
+                    startActivity(intent1);
 
 
-    private void getItems() {
-        /*
-        ArrayList<Cart> oldItems = new ArrayList<>();
-
-        // this will cache the current products
-
-        SharedPreferences sharedPreferences = getSharedPreferences("CartFile", MODE_PRIVATE);
-        String userid =  sharedPreferences.getString("userid","");
-        Float price =  sharedPreferences.getFloat("price",0);
-        String product_id =  sharedPreferences.getString("product_id","");
-        String username =  sharedPreferences.getString("username","");
-        Uri uri = Uri.parse( sharedPreferences.getString("uri",""));
-        String mProductName =  sharedPreferences.getString("pname","");
-        */
-
-
-        //Toast.makeText(CartActivity.this, "userid"+userid+price+product_id+username+uri, Toast.LENGTH_SHORT).show();
-
-        // this code will check duplicate products after restoring products from the cache
-        /*
-                Cart items = new Cart(userid,username,product_id,price,mProductName,uri);
-                oldItems.add(items);
-
-
-                for(Cart i : oldItems){
-                    Integer quan = products.get(i);
-                    if(quan == null)
-                        products.put(i,1);
-                    else
-                        ++quan;
-                    myCartRecyclerViewAdapter.notifyDataSetChanged();
                 }
-        */
-    }
-
-    private void saveCart()
-    {
-        SharedPreferences preferences = getSharedPreferences("CartFile", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        Cart item = new Cart(id,username,mPid,mPrice,mPname,mUri);
-
-
-                editor.putString("userid", item.getUser_id());
-                editor.putString("product_id", item.getProduct_id());
-                editor.putString("username", item.getUsername());
-                editor.putString("pname", item.getProduct_name());
-                editor.putFloat("price", (float) item.getPrice());
-                editor.putString("uri", String.valueOf(mUri));
-
-                editor.commit();
-
-        Toast.makeText(this, "productname"+mPname, Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    private void setViews()
-    {
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //saveCart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //saveCart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //getItems();
-    }
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-        //getItems();
+                else
+                {
+                    Toast.makeText(CartActivity.this, "Cart is Empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 
     @Override

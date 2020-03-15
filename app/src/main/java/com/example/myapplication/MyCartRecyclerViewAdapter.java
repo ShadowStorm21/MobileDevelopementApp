@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Cart> items = new ArrayList<>();
-    private Button removeBtn,incBtn,decInt;
+
 
     public void setItems(ArrayList<Cart> items) {
         this.items = items;
@@ -64,7 +64,7 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
             return;
         }
             holder.mTitle.setText(item.getProduct_name());
-            holder.mPrice.setText(String.valueOf(item.getPrice()));
+            holder.mPrice.setText(item.getPrice()+" $");
             holder.mId.setText(item.getProduct_id());
             Integer quantitiy = CartActivity.findProduct(item);
             if (item.getUri() != null) {
