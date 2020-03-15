@@ -160,8 +160,12 @@ public class ProfileFragment extends Fragment {
                 }
                 String password = Password.getText().toString();
                 String phoneNumber = PhoneNo.getText().toString();
+                String date = Date.getText().toString();
+
                 UserValues.put("password",password );
                 UserValues.put("phoneNumber", phoneNumber);
+                UserValues.put("date",date);
+
                 myRef.child(user_id).updateChildren(UserValues).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
