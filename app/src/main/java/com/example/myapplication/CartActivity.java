@@ -101,8 +101,6 @@ public class CartActivity extends AppCompatActivity {
                     intent1.putExtra("username",username);
                     intent1.putExtra("pid",mPid);
                     startActivity(intent1);
-
-
                 }
                 else
                 {
