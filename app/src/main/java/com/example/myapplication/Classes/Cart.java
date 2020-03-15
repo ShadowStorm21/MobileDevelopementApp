@@ -1,11 +1,6 @@
-package com.example.myapplication;
+package com.example.myapplication.Classes;
 
-import android.media.audiofx.Equalizer;
 import android.net.Uri;
-import android.util.Log;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Cart  {
     private String user_id;

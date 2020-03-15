@@ -7,23 +7,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.MainActivity;
-import com.example.myapplication.MyRecyclerViewAdapter;
+import com.example.myapplication.Adapters.MyRecyclerViewAdapter;
 import com.example.myapplication.OrderActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.SmartPhones;
+import com.example.myapplication.Classes.SmartPhones;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,9 +37,8 @@ public class HomeFragment extends Fragment {
     private Intent mIntent;
     private String username, id, pid, pname;
     private Double price;
-    private ValueEventListener valueEventListener;
 
-    // this might be changed later also
+
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -82,7 +75,7 @@ public class HomeFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(myRecyclerViewAdapter);
         getProducts();
-        meow();
+
         return root;
     }
 
@@ -93,7 +86,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                X = true;
+
                 for (DataSnapshot products : dataSnapshot.getChildren()) {
                     HashMap<String, Object> hashMap = (HashMap) products.getValue();
                     pid = hashMap.get("id").toString();
@@ -108,7 +101,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                X = true;
+
             }
 
         });
@@ -116,21 +109,8 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void meow() {
-        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-        connectedRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                boolean connected = snapshot.getValue(Boolean.class);
-                //Toast.makeText(getActivity(), connected + "", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                System.err.println("Listener was cancelled");
-            }
-        });
 
 
-    }
+
+
 }

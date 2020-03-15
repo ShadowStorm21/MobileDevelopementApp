@@ -6,22 +6,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.myapplication.Adapters.MyCartRecyclerViewAdapter;
+import com.example.myapplication.Classes.Cart;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
@@ -57,8 +54,6 @@ public class CartActivity extends AppCompatActivity {
             mPname = intent.getStringExtra("pname");
             mPrice = intent.getDoubleExtra("price", 0);
             mUri = Uri.parse(intent.getStringExtra("uri"));
-            //Toast.makeText(CartActivity.this, "userid"+username+id+mPid+mPname+mPrice+mUri, Toast.LENGTH_LONG).show();
-
 
             Cart item = new Cart(id, username, mPid, mPrice, mPname,mUri);
             Integer quan =  products.get(item);
@@ -129,7 +124,7 @@ public class CartActivity extends AppCompatActivity {
             Integer productQuantity = entry.getValue();
             total += product.getPrice() * productQuantity;
         }
-        return Math.round(total);
+        return (total);
     }
 
     public void removeItem(View view) {

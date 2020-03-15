@@ -1,13 +1,13 @@
-package com.example.myapplication;
+package com.example.myapplication.Classes;
 
 public class Orders {
 
     private String order_id;
     private String user_id;
     private String user_name;
-    private Double price;
+    private double price;
 
-    public Orders(String order_id, String user_id, String user_name, Double price) {
+    public Orders(String order_id, String user_id, String user_name, double price) {
         this.order_id = order_id;
         this.user_id = user_id;
         this.user_name = user_name;
@@ -41,11 +41,11 @@ public class Orders {
         this.user_name = user_name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

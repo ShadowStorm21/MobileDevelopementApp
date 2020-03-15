@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Adapters;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Classes.SmartPhones;
+import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -46,7 +48,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.title.setText(smartPhone.getmName());
         holder.subtitle.setText(smartPhone.getmPrice()+"$");
         holder.imageView.setImageURI(smartPhone.getmPic());
-// this will be changed also
+
 
         if (!smartPhone.getmProductId().isEmpty()) {
             FirebaseStorage.getInstance().getReference(smartPhone.getmProductId() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -63,13 +65,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     // set default img
                 }
             });
-
-
-
         }
-
-
-
 
     }
 
@@ -82,7 +78,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         public TextView title,subtitle;
         public ImageView imageView;
-
 
 
         public MyViewHolder(@NonNull View itemView) {

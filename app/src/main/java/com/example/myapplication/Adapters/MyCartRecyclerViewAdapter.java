@@ -1,21 +1,17 @@
-package com.example.myapplication;
+package com.example.myapplication.Adapters;
 
-import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
+import com.example.myapplication.CartActivity;
+import com.example.myapplication.Classes.Cart;
+import com.example.myapplication.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -66,13 +62,13 @@ public class MyCartRecyclerViewAdapter extends RecyclerView.Adapter<MyCartRecycl
             holder.mTitle.setText(item.getProduct_name());
             holder.mPrice.setText(item.getPrice()+" $");
             holder.mId.setText(item.getProduct_id());
-            Integer quantitiy = CartActivity.findProduct(item);
+            Integer quantity = CartActivity.findProduct(item);
             if (item.getUri() != null) {
                 holder.mImageView.setImageURI(item.getUri());
                 Picasso.get().load(item.getUri()).into(holder.mImageView);
             }
-            if(quantitiy != null)
-                holder.productQuantity.setText(quantitiy + "");
+            if(quantity != null)
+                holder.productQuantity.setText(quantity + "");
 
 
     }
