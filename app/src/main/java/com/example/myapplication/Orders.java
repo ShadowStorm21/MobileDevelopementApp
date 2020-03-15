@@ -1,11 +1,26 @@
 package com.example.myapplication;
 
+import java.util.ArrayList;
+
 public class Orders {
 
     private String order_id;
     private String user_id;
     private String user_name;
     private Double price;
+    private ArrayList<String> productsId;
+
+    public ArrayList<String> getProductsId() {
+        return productsId;
+    }
+
+    public Orders(String order_id, String user_id, String user_name, Double price, ArrayList<String> productsId) {
+        this.order_id = order_id;
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.price = price;
+        this.productsId = productsId;
+    }
 
     public Orders(String order_id, String user_id, String user_name, Double price) {
         this.order_id = order_id;

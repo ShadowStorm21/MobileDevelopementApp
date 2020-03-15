@@ -41,6 +41,10 @@ public class CartActivity extends AppCompatActivity {
         return products.get(cart);
     }
 
+    public static HashMap<Cart, Integer> getProducts() {
+        return products;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

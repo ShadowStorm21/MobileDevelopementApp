@@ -17,10 +17,15 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PaymentActivity extends AppCompatActivity {
     private Button pay,clear;
@@ -56,7 +61,7 @@ public class PaymentActivity extends AppCompatActivity {
                     return;
                 errMsg.setText("");
 
-                Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
+                Intent intent = new Intent(PaymentActivity.this, Orders.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(PaymentActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 String CHANNEL_ID="LOLW";
                 NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,"XD", NotificationManager.IMPORTANCE_LOW);
@@ -73,6 +78,9 @@ public class PaymentActivity extends AppCompatActivity {
 
                 insertRecordDatabase();
 
+                getParent().finish();
+                finish();
+                startActivity(intent);
             }
         });
 
@@ -132,9 +140,29 @@ public class PaymentActivity extends AppCompatActivity {
 
 
     private void insertRecordDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
 
-        String uid,username;
+
+        Intent cartIntent = getIntent();
+
+        String username = cartIntent.getStringExtra("username"),
+                uuidOrder = java.util.UUID.randomUUID().toString(),
+                uid = cartIntent.getStringExtra("uid");
+
+        HashMap<Cart,Integer> products = CartActivity.getProducts(); // get all products from the cart
+        ArrayList<String> productsId = new ArrayList<>();
+
+        // copy id from each cart
+        for (Map.Entry<Cart, Integer> entry : products.entrySet())
+            productsId.add( entry.getKey().getProduct_id() );
+
+        CartActivity.getProducts().clear();     // delete all products from the cart after ordering
+
+        Double totalPrice = getIntent().getDoubleExtra("total",0);
+        Orders customerOrder = new Orders(uuidOrder,uid,username,totalPrice,productsId);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Orders").child(uuidOrder);
+
+        myRef.setValue(customerOrder);
     }
 }
