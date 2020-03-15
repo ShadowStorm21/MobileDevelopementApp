@@ -170,7 +170,7 @@ public class CartActivity extends AppCompatActivity {
             products.remove(key);
             myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
             myCartRecyclerViewAdapter.notifyDataSetChanged();
-            totalPrice.setText("0$");
+            totalPrice.setText( getPrice() + "$");
             return;
         }
         products.put(key,quan);
