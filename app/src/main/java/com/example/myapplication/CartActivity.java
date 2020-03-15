@@ -241,6 +241,18 @@ public class CartActivity extends AppCompatActivity {
         totalPrice.setText(getPrice() + "$");
         myCartRecyclerViewAdapter.notifyDataSetChanged();
     }
+
+    public void buyNow(View view) {
+        if(products.isEmpty())
+            return;
+        // get the price and move to payment activity
+        Intent paymentActivity = new Intent(CartActivity.this, PaymentActivity.class);
+        paymentActivity.putExtra("username",username);
+        paymentActivity.putExtra("id",id);
+        paymentActivity.putExtra("totalPrice", getPrice());
+        startActivity(paymentActivity);
+        finish();
+    }
 }
 
 
