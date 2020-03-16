@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
 
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    /*public static boolean isNightModeActive(Context context) {
+    public static boolean isNightModeActive(Context context) {          // extra feature (night mode)
         int defaultNightMode = AppCompatDelegate.getDefaultNightMode();
         if (defaultNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
             return true;
@@ -98,14 +100,15 @@ public class MainActivity extends AppCompatActivity {
                 return false;
         }
         return false;
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.action_settings)
+        if(item.getItemId() == R.id.logout)
         {
-            Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);
+            finishAffinity();
         }
         return super.onOptionsItemSelected(item);
     }

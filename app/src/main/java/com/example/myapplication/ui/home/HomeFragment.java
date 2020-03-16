@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,12 +20,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Classes.SmartPhones;
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.MyRecyclerViewAdapter;
 import com.example.myapplication.OrderActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.SmartPhones;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +38,7 @@ import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
 
-    private Boolean X = false;
+
     private RecyclerView recyclerView;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private ArrayList<SmartPhones> mSmartPhones = new ArrayList<>();
@@ -44,12 +46,13 @@ public class HomeFragment extends Fragment {
     private Intent mIntent;
     private String username, id, pid, pname;
     private Double price;
-    private ValueEventListener valueEventListener;
 
-    // this might be changed later also
+
+
+
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View v) {  // When an item is clicked in recyclerView send its details into the next activity
 
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
@@ -73,7 +76,7 @@ public class HomeFragment extends Fragment {
         mIntent = getActivity().getIntent();
         username = LoginActivity.getUsername();
         id = LoginActivity.getId();
-        Log.e("user", username + id);
+
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(mSmartPhones);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         myRecyclerViewAdapter.setOnItemClickListener(onItemClickListener);
@@ -91,7 +94,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                X = true;
+
                 for (DataSnapshot products : dataSnapshot.getChildren()) {
                     HashMap<String, Object> hashMap = (HashMap) products.getValue();
                     pid = hashMap.get("id").toString();
@@ -105,12 +108,17 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                X = true;
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
             }
 
         });
 
+
+    }
+
+    private void setRating()
+    {
 
     }
 

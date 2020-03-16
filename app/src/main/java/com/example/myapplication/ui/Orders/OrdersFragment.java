@@ -2,25 +2,21 @@ package com.example.myapplication.ui.Orders;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Adapters.OrdersAdapter;
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.Orders;
-import com.example.myapplication.OrdersAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.RatingActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +34,6 @@ public class OrdersFragment extends Fragment {
     private ArrayList<Orders> ordersArrayList;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView recyclerView;
-
     private String username,id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,7 +46,8 @@ public class OrdersFragment extends Fragment {
         recyclerView = root.findViewById(R.id.ordersRecycler);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(ordersAdapter);
-
+        ordersAdapter.setmOnItemClickListener(onItemClickListener);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         username = LoginActivity.getUsername();
         id = LoginActivity.getId();
         getOrders();
@@ -72,7 +68,7 @@ public class OrdersFragment extends Fragment {
 
                    // order associated with the current user
                    if(id.equals(hashMap.get("user_id").toString())) {
-                       Long price = (Long) hashMap.get("price");
+                       Double price = (Double) hashMap.get("price");
                        Orders mOrder = new Orders(
                                hashMap.get("order_id").toString(),
                                id,username,
@@ -93,4 +89,20 @@ public class OrdersFragment extends Fragment {
             }
         });
     }
+
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {  // When an item is clicked in recyclerView send its details into the next activity
+
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+            Orders orders = ordersArrayList.get(position);
+            Intent intent = new Intent(getActivity(), RatingActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("orders",  ordersArrayList);
+            intent.putExtras(bundle);
+            intent.putExtra("position", position);
+            startActivity(intent);
+        }
+    };
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Classes.SmartPhones;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -46,7 +47,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.title.setText(smartPhone.getmName());
         holder.subtitle.setText(smartPhone.getmPrice()+"$");
         holder.imageView.setImageURI(smartPhone.getmPic());
-// this will be changed also
+
 
         if (!smartPhone.getmProductId().isEmpty()) {
             FirebaseStorage.getInstance().getReference(smartPhone.getmProductId() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -61,6 +62,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     // set default img
+                    holder.imageView.setImageResource(R.drawable.ic_smartphone_black_24dp);
                 }
             });
 

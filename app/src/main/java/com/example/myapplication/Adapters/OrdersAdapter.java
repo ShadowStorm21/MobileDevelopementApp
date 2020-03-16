@@ -10,7 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.Classes.Orders;
+
+import com.example.myapplication.Orders;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -19,6 +20,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
     private ArrayList<Orders> ordersArrayList;
     private Context context;
+    private View.OnClickListener mOnItemClickListener;
+
+    public void setmOnItemClickListener(View.OnClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
 
     public OrdersAdapter(ArrayList<Orders> ordersArrayList) {
         this.ordersArrayList = ordersArrayList;
@@ -32,6 +38,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             order_id = itemView.findViewById(R.id.tvOrderID);
             price = itemView.findViewById(R.id.tvTotalPrice);
             products = itemView.findViewById(R.id.tvProducts);
+            itemView.setTag(this);
+            itemView.setOnClickListener(mOnItemClickListener);
             paymentOptions = itemView.findViewById(R.id.tvPaymentMethod);
         }
     }
@@ -52,7 +60,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         {
             holder.order_id.setText("OrderID : "+orders.getOrder_id());
             holder.price.setText("Price : "+ orders.getPrice() + " $ ");
-            holder.products.setText( orders.getProductsId().toString());
+            holder.products.setText("ProductID : "+ orders.getProductsId().toString());
             holder.paymentOptions.setText("Via: " + orders.getPaymentOption());
         }
         else

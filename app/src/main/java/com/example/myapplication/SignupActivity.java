@@ -64,7 +64,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         switch (v.getId()) {
             case R.id.buttonDate:
-                buttonAnimation(v);
+
                 showCalenderDialog();
                 hideKeyboard(v);
                 break;
@@ -98,15 +98,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mYear = findViewById(R.id.editText9);
         Calendar calendar;
         calendar = Calendar.getInstance();
-        //Year = calendar.get(Calendar.YEAR);
-       // Month = calendar.get(Calendar.MONTH);
-       // Day = calendar.get(Calendar.DAY_OF_MONTH);
+        Year = calendar.get(Calendar.YEAR);
+       Month = calendar.get(Calendar.MONTH);
+        Day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog;
 
-        // default date of birth will be on 2000 / 1 Jan
-        Year = 2000;
-        Month = 0;
-        Day = 1;
+
 
         datePickerDialog = new DatePickerDialog(SignupActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -232,7 +229,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         private void registerNewUser()
         {
-            if (checkusersnames() == true) {
+            if (checkusersnames()) {
 
                 String id = myRef.push().getKey();
                 String password = mPassword.getText().toString();
@@ -242,7 +239,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 myRef.child(id).setValue(customer);
                 ProgressDialog progressDialog = ProgressDialog.show(SignupActivity.this, "Signing up", "Creating your Account..");
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }

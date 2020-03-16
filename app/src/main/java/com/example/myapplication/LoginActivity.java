@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     login();
                     hideKeyboard(v);
+                    buttonAnimation(v);
 
                 }
                 else {
@@ -84,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                buttonAnimation(v);
                 mUsername.setText("");
                 mPassword.setText("");
                 mUsername.requestFocus();
@@ -171,5 +175,21 @@ public class LoginActivity extends AppCompatActivity {
     {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+    }
+
+    private void buttonAnimation(View view) {
+        final double mAmplitude = 0.2;
+        final double mFrequency = 15;
+        Interpolator interpolator = new Interpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return (float) (-1 * Math.pow(Math.E, -input / mAmplitude) *
+                        Math.cos(mFrequency * input) + 1);
+            }
+        };
+
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        myAnim.setInterpolator(interpolator);
+        view.startAnimation(myAnim);
     }
 }

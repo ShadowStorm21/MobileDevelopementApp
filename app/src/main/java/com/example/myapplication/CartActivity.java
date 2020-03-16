@@ -11,11 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.Adapters.MyCartRecyclerViewAdapter;
+import com.example.myapplication.Classes.Cart;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,8 +36,6 @@ public class CartActivity extends AppCompatActivity {
     private Double mPrice;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = database.getReference("Cart");
     private TextView totalPrice;
     private Uri mUri;
 
@@ -40,6 +43,11 @@ public class CartActivity extends AppCompatActivity {
     private static HashMap<Cart,Integer> products = new HashMap<>();
     public static Integer findProduct(Cart cart) {
         return products.get(cart);
+    }
+
+
+    public static HashMap<Cart, Integer> getProducts() {
+        return products;
     }
 
     @Override
@@ -51,16 +59,12 @@ public class CartActivity extends AppCompatActivity {
         setTitle("My Cart");
 
         // user clicked on product and the new intent carried data
-        if(intent.hasExtra("username")){
-            username = intent.getStringExtra("username");
-            id = intent.getStringExtra("id");
+        if(intent.hasExtra("pid")){
+
             mPid = intent.getStringExtra("pid");
             mPname = intent.getStringExtra("pname");
             mPrice = intent.getDoubleExtra("price", 0);
             mUri = Uri.parse(intent.getStringExtra("uri"));
-            //Toast.makeText(CartActivity.this, "userid"+username+id+mPid+mPname+mPrice+mUri, Toast.LENGTH_LONG).show();
-
-
             Cart item = new Cart(id, username, mPid, mPrice, mPname,mUri);
             Integer quan =  products.get(item);
             if(quan == null)
@@ -90,92 +94,6 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
-    private void getItems() {
-        /*
-        ArrayList<Cart> oldItems = new ArrayList<>();
-
-        // this will cache the current products
-
-        SharedPreferences sharedPreferences = getSharedPreferences("CartFile", MODE_PRIVATE);
-        String userid =  sharedPreferences.getString("userid","");
-        Float price =  sharedPreferences.getFloat("price",0);
-        String product_id =  sharedPreferences.getString("product_id","");
-        String username =  sharedPreferences.getString("username","");
-        Uri uri = Uri.parse( sharedPreferences.getString("uri",""));
-        String mProductName =  sharedPreferences.getString("pname","");
-        */
-
-
-        //Toast.makeText(CartActivity.this, "userid"+userid+price+product_id+username+uri, Toast.LENGTH_SHORT).show();
-
-        // this code will check duplicate products after restoring products from the cache
-        /*
-                Cart items = new Cart(userid,username,product_id,price,mProductName,uri);
-                oldItems.add(items);
-
-
-                for(Cart i : oldItems){
-                    Integer quan = products.get(i);
-                    if(quan == null)
-                        products.put(i,1);
-                    else
-                        ++quan;
-                    myCartRecyclerViewAdapter.notifyDataSetChanged();
-                }
-        */
-    }
-
-    private void saveCart()
-    {
-        SharedPreferences preferences = getSharedPreferences("CartFile", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        Cart item = new Cart(id,username,mPid,mPrice,mPname,mUri);
-
-
-                editor.putString("userid", item.getUser_id());
-                editor.putString("product_id", item.getProduct_id());
-                editor.putString("username", item.getUsername());
-                editor.putString("pname", item.getProduct_name());
-                editor.putFloat("price", (float) item.getPrice());
-                editor.putString("uri", String.valueOf(mUri));
-
-                editor.commit();
-
-        Toast.makeText(this, "productname"+mPname, Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    private void setViews()
-    {
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //saveCart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //saveCart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //getItems();
-    }
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-        //getItems();
-    }
 
     @Override
     public void onBackPressed() {
@@ -195,7 +113,7 @@ public class CartActivity extends AppCompatActivity {
             Integer productQuantity = entry.getValue();
             total += product.getPrice() * productQuantity;
         }
-        return Math.round(total);
+        return total;
     }
 
     public void removeItem(View view) {
@@ -246,12 +164,29 @@ public class CartActivity extends AppCompatActivity {
         if(products.isEmpty())
             return;
         // get the price and move to payment activity
+        buttonAnimation(view);
         Intent paymentActivity = new Intent(CartActivity.this, PaymentActivity.class);
         paymentActivity.putExtra("username",username);
         paymentActivity.putExtra("id",id);
         paymentActivity.putExtra("totalPrice", getPrice());
         startActivity(paymentActivity);
         finish();
+    }
+
+    private void buttonAnimation(View view) {
+        final double mAmplitude = 0.2;
+        final double mFrequency = 15;
+        Interpolator interpolator = new Interpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return (float) (-1 * Math.pow(Math.E, -input / mAmplitude) *
+                        Math.cos(mFrequency * input) + 1);
+            }
+        };
+
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        myAnim.setInterpolator(interpolator);
+        view.startAnimation(myAnim);
     }
 }
 

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="12dp"
         android:maxLines="2"
         android:text="Payment"
@@ -19,7 +19,6 @@
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,6 +36,7 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:fontFamily="@font/comfortaa"
             android:text="Payment Options : "
@@ -56,6 +56,7 @@
                 style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="Cash"
                 android:textAlignment="center"
                 android:textStyle="bold" />
@@ -64,6 +65,7 @@
                 android:id="@+id/rbVisa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="Visa"
                 android:textAlignment="center"
                 android:textStyle="bold" />
@@ -92,7 +94,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:fontFamily="@font/comfortaa"
-            android:inputType="number" />
+            android:inputType="number"
+            android:layout_margin="10dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -114,19 +117,23 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="Month"
+                android:textSize="18sp" />
+
             <Spinner
                 android:id="@+id/spCardMonth"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:entries="@array/month" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:enabled="false"
-                android:hint="Month" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -134,18 +141,23 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Year"
+                android:textSize="18sp"
+                android:layout_margin="10dp" />
+
             <Spinner
                 android:id="@+id/spCardYear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:entries="@array/year" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="Year" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -159,6 +171,7 @@
                 android:id="@+id/etCVV"
                 android:layout_width="125dp"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPassword" />
@@ -179,19 +192,23 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:fontFamily="@font/comfortaa"
             android:text="Total Price : "
-            android:textAlignment="textEnd"
+            android:textAlignment="center"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:fontFamily="@font/comfortaa"
             android:textAlignment="viewStart"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -199,9 +216,10 @@
         android:id="@+id/btnPay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
 
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/comfortaa"
         android:text="Order Now"
@@ -215,6 +233,7 @@
         android:id="@+id/btnClear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"

@@ -22,28 +22,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
         <TextView
             android:id="@+id/tvProducts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="13dp"
+            android:layout_weight="1.5" />
 
         <TextView
             android:id="@+id/tvTotalPrice"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="13dp"
             android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tvPaymentMethod"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1" />
+            android:layout_margin="13dp"
+            android:layout_weight="0.75" />
 
     </LinearLayout>
 

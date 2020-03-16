@@ -12,12 +12,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.myapplication.Classes.Cart;
 import com.example.myapplication.ui.Orders.OrdersFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -50,7 +54,7 @@ public class PaymentActivity extends AppCompatActivity {
         cardCVV = findViewById(R.id.etCVV);
         paymentOptions = findViewById(R.id.rgPaymentOptions);
 
-        final Double cartTotalPrice = getIntent().getDoubleExtra("total",0);
+        final Double cartTotalPrice = getIntent().getDoubleExtra("totalPrice",0);
         price.setText(  cartTotalPrice.toString() + " $");
         price.setTextColor(Color.RED);
         errMsg.setTextColor(Color.RED);
@@ -62,26 +66,11 @@ public class PaymentActivity extends AppCompatActivity {
                 if( !isDataValid())
                     return;
                 errMsg.setText("");
-
-                Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
-                PendingIntent contentIntent = PendingIntent.getActivity(PaymentActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                String CHANNEL_ID="LOLW";
-                NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,"XD", NotificationManager.IMPORTANCE_LOW);
-                Notification notification = new NotificationCompat.Builder(PaymentActivity.this,CHANNEL_ID)
-                        .setTicker(getString(R.string.app_name))
-                        .setSmallIcon(android.R.drawable.sym_def_app_icon)
-                        .setContentTitle(getString(R.string.app_name)).setContentText(getString(R.string.content))
-                        .setContentIntent(contentIntent)
-                        .setAutoCancel(true)
-                        .build();
-                NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                notificationManager.createNotificationChannel(notificationChannel);
-                notificationManager.notify(10, notification);
-
+                sendNotification();
                 insertRecordDatabase();
+                buttonAnimation(v);
 
-                finish();
-                startActivity(intent);
+
             }
         });
 
@@ -143,10 +132,8 @@ public class PaymentActivity extends AppCompatActivity {
     private void insertRecordDatabase() {
 
 
-        Intent cartIntent = getIntent();
-
         String username = LoginActivity.getUsername(),
-                uuidOrder = java.util.UUID.randomUUID().toString(),
+                uuidOrder = UUID.randomUUID().toString(),
                 uid = LoginActivity.getId(),
                 paymentOption = paymentOptions.getCheckedRadioButtonId() == R.id.rbCash ? "Cash" : "Visa";
 
@@ -161,12 +148,48 @@ public class PaymentActivity extends AppCompatActivity {
 
         CartActivity.getProducts().clear();     // delete all products from the cart after ordering
 
-        Double totalPrice = getIntent().getDoubleExtra("total",0);
-        Orders customerOrder = new Orders(uuidOrder,uid,username,totalPrice,productsId,paymentOption);
+        Double totalPrice = getIntent().getDoubleExtra("totalPrice",0);
+        com.example.myapplication.Orders customerOrder = new com.example.myapplication.Orders(uuidOrder,uid,username,totalPrice,productsId,paymentOption);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Orders").child(uuidOrder);
 
         myRef.setValue(customerOrder);
+    }
+
+    private void sendNotification()
+    {
+        Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(PaymentActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String CHANNEL_ID="Channel 1";
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,"My Channel 1", NotificationManager.IMPORTANCE_LOW);
+        Notification notification = new NotificationCompat.Builder(PaymentActivity.this,CHANNEL_ID)
+                .setTicker(getString(R.string.app_name))
+                .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                .setContentTitle(getString(R.string.app_name)).setContentText(getString(R.string.content))
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true)
+                .build();
+        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(notificationChannel);
+        notificationManager.notify(10, notification);
+        startActivity(intent);
+        finish();
+    }
+
+    private void buttonAnimation(View view) {
+        final double mAmplitude = 0.2;
+        final double mFrequency = 15;
+        Interpolator interpolator = new Interpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return (float) (-1 * Math.pow(Math.E, -input / mAmplitude) *
+                        Math.cos(mFrequency * input) + 1);
+            }
+        };
+
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        myAnim.setInterpolator(interpolator);
+        view.startAnimation(myAnim);
     }
 }

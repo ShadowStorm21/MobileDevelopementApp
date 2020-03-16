@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myapplication.Classes.Customer;
+import com.example.myapplication.LoginActivity;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,12 +35,13 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference("Customers");
-    private TextView usernameTextView;
     private EditText Password,PhoneNo,Date,Username;
     private Button buttonUpdate;
     private ArrayList<Customer> customerArrayList;
     private Intent mIntent;
-    private String username,user_id;
+    private static String userName,uid;
+
+
 
 
 
@@ -55,10 +57,9 @@ public class ProfileFragment extends Fragment {
         Date = root.findViewById(R.id.editTextDateProfile);
         Username = root.findViewById(R.id.editTextProfileUsername);
         customerArrayList = new ArrayList<>();
-        mIntent = getActivity().getIntent();;
-        username = mIntent.getStringExtra("currentUser");
+        mIntent = getActivity().getIntent();
+        userName = LoginActivity.getUsername();
         buttonUpdate.setEnabled(true);
-
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,14 +104,14 @@ public class ProfileFragment extends Fragment {
 
                 for(int i = 0 ; i < customerArrayList.size(); i++)
                 {
-                    if(customerArrayList.get(i).getName().equals(username.trim()))
+                    if(customerArrayList.get(i).getName().equals(userName))
                     {
 
                         Password.setText(customerArrayList.get(i).getPassword());
                         PhoneNo.setText(customerArrayList.get(i).getPhoneNumber());
                         Date.setText(customerArrayList.get(i).getDate());
                         Username.setText(customerArrayList.get(i).getName());
-                        user_id = customerArrayList.get(i).getId();
+                        uid = customerArrayList.get(i).getId();
                     }
                 }
             }
@@ -151,7 +152,7 @@ public class ProfileFragment extends Fragment {
     }
     private void updateUserDetails()
     {
-        myRef.child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> UserValues = new HashMap();
@@ -166,7 +167,7 @@ public class ProfileFragment extends Fragment {
                 UserValues.put("phoneNumber", phoneNumber);
                 UserValues.put("date",date);
 
-                myRef.child(user_id).updateChildren(UserValues).addOnCompleteListener(new OnCompleteListener<Void>() {
+                myRef.child(uid).updateChildren(UserValues).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getActivity(), "Updated Successfully", Toast.LENGTH_SHORT).show();
