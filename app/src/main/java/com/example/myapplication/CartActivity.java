@@ -6,19 +6,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.Adapters.MyCartRecyclerViewAdapter;
-import com.example.myapplication.Classes.Cart;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
@@ -28,18 +31,15 @@ public class CartActivity extends AppCompatActivity {
     private Double mPrice;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("Cart");
     private TextView totalPrice;
     private Uri mUri;
-    private Button mCheckout;
 
 
     private static HashMap<Cart,Integer> products = new HashMap<>();
     public static Integer findProduct(Cart cart) {
         return products.get(cart);
-    }
-
-    public static HashMap<Cart, Integer> getProducts() {
-        return products;
     }
 
     @Override
@@ -50,15 +50,16 @@ public class CartActivity extends AppCompatActivity {
         Intent intent = getIntent();
         setTitle("My Cart");
 
-        username = LoginActivity.getUsername();
-        id = LoginActivity.getId();
-
         // user clicked on product and the new intent carried data
-        if(intent.hasExtra("pid")){
+        if(intent.hasExtra("username")){
+            username = intent.getStringExtra("username");
+            id = intent.getStringExtra("id");
             mPid = intent.getStringExtra("pid");
             mPname = intent.getStringExtra("pname");
             mPrice = intent.getDoubleExtra("price", 0);
             mUri = Uri.parse(intent.getStringExtra("uri"));
+            //Toast.makeText(CartActivity.this, "userid"+username+id+mPid+mPname+mPrice+mUri, Toast.LENGTH_LONG).show();
+
 
             Cart item = new Cart(id, username, mPid, mPrice, mPname,mUri);
             Integer quan =  products.get(item);
@@ -72,11 +73,8 @@ public class CartActivity extends AppCompatActivity {
         }
         else { } // user clicked on cart icon , no data carried
 
-
         totalPrice = findViewById(R.id.tvPrice);
         recyclerView = findViewById(R.id.cartRecyclerView);
-        mCheckout = findViewById(R.id.buttonCheckout);
-
 
         layoutManager = new LinearLayoutManager(this);
 
@@ -89,27 +87,94 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setAdapter(myCartRecyclerViewAdapter);
 
         totalPrice.setText( getPrice() + " $");
+    }
 
-        mCheckout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if(getPrice() != 0)
-                {
-                    Intent intent1 = new Intent(CartActivity.this,PaymentActivity.class);
-                    intent1.putExtra("total",getPrice());
-                    intent1.putExtra("id",id);
-                    intent1.putExtra("username",username);
-                    intent1.putExtra("pid",mPid);
-                    startActivity(intent1);
+    private void getItems() {
+        /*
+        ArrayList<Cart> oldItems = new ArrayList<>();
+
+        // this will cache the current products
+
+        SharedPreferences sharedPreferences = getSharedPreferences("CartFile", MODE_PRIVATE);
+        String userid =  sharedPreferences.getString("userid","");
+        Float price =  sharedPreferences.getFloat("price",0);
+        String product_id =  sharedPreferences.getString("product_id","");
+        String username =  sharedPreferences.getString("username","");
+        Uri uri = Uri.parse( sharedPreferences.getString("uri",""));
+        String mProductName =  sharedPreferences.getString("pname","");
+        */
+
+
+        //Toast.makeText(CartActivity.this, "userid"+userid+price+product_id+username+uri, Toast.LENGTH_SHORT).show();
+
+        // this code will check duplicate products after restoring products from the cache
+        /*
+                Cart items = new Cart(userid,username,product_id,price,mProductName,uri);
+                oldItems.add(items);
+
+
+                for(Cart i : oldItems){
+                    Integer quan = products.get(i);
+                    if(quan == null)
+                        products.put(i,1);
+                    else
+                        ++quan;
+                    myCartRecyclerViewAdapter.notifyDataSetChanged();
                 }
-                else
-                {
-                    Toast.makeText(CartActivity.this, "Cart is Empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        });
+        */
+    }
+
+    private void saveCart()
+    {
+        SharedPreferences preferences = getSharedPreferences("CartFile", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Cart item = new Cart(id,username,mPid,mPrice,mPname,mUri);
+
+
+                editor.putString("userid", item.getUser_id());
+                editor.putString("product_id", item.getProduct_id());
+                editor.putString("username", item.getUsername());
+                editor.putString("pname", item.getProduct_name());
+                editor.putFloat("price", (float) item.getPrice());
+                editor.putString("uri", String.valueOf(mUri));
+
+                editor.commit();
+
+        Toast.makeText(this, "productname"+mPname, Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    private void setViews()
+    {
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //saveCart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //saveCart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //getItems();
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        //getItems();
     }
 
     @Override
@@ -130,7 +195,7 @@ public class CartActivity extends AppCompatActivity {
             Integer productQuantity = entry.getValue();
             total += product.getPrice() * productQuantity;
         }
-        return (total);
+        return Math.round(total);
     }
 
     public void removeItem(View view) {
@@ -138,7 +203,7 @@ public class CartActivity extends AppCompatActivity {
         TextView id = x.findViewById(R.id.tvId);
 
         // creating Cart with product id is ok for searching from the hashmap only
-        // since the hashmap hash by product id
+        // since the hashmap hashes by product id
         products.remove(new Cart(id.getText().toString()) );
         myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
         myCartRecyclerViewAdapter.notifyDataSetChanged();
@@ -169,12 +234,24 @@ public class CartActivity extends AppCompatActivity {
             products.remove(key);
             myCartRecyclerViewAdapter.setItems(new ArrayList<Cart>(products.keySet()));
             myCartRecyclerViewAdapter.notifyDataSetChanged();
-            totalPrice.setText( getPrice() + "$");
+            totalPrice.setText(getPrice() + "$");
             return;
         }
         products.put(key,quan);
         totalPrice.setText(getPrice() + "$");
         myCartRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    public void buyNow(View view) {
+        if(products.isEmpty())
+            return;
+        // get the price and move to payment activity
+        Intent paymentActivity = new Intent(CartActivity.this, PaymentActivity.class);
+        paymentActivity.putExtra("username",username);
+        paymentActivity.putExtra("id",id);
+        paymentActivity.putExtra("totalPrice", getPrice());
+        startActivity(paymentActivity);
+        finish();
     }
 }
 
