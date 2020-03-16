@@ -36,9 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_marginLeft="40dp"
         android:fontFamily="@font/comfortaa"
         android:padding="5dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="center"
         android:textSize="18sp" />
 
 </LinearLayout>
