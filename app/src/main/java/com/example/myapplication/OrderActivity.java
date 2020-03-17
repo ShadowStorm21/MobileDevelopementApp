@@ -155,8 +155,7 @@ public class OrderActivity extends AppCompatActivity {
                      HashMap hashMap = (HashMap) snapshot.getValue();
 
                         if(hashMap.get("rating") != null) {
-                            rate = (Double) hashMap.get("rating");
-
+                            rate = Double.valueOf(hashMap.get("rating").toString());
                             total = total + rate;
                             i++;
 

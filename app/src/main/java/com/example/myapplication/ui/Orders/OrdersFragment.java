@@ -58,6 +58,8 @@ public class OrdersFragment extends Fragment {
 
     private void getOrders()
     {
+        username = LoginActivity.getUsername();
+        id = LoginActivity.getId();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
