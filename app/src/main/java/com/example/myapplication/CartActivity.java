@@ -44,7 +44,15 @@ public class CartActivity extends AppCompatActivity {
     public static Integer findProduct(Cart cart) {
         return products.get(cart);
     }
-
+    public static void addProduct(Cart cart) {
+        Integer quan = products.get(cart);
+        if(quan == null)
+            products.put(cart,1);
+        else {
+            ++quan;
+            products.put(cart,quan);
+        }
+    }
 
     public static HashMap<Cart, Integer> getProducts() {
         return products;
@@ -103,7 +111,7 @@ public class CartActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private double getPrice() {
+    public static double getPrice() {
         if(products.isEmpty())
             return 0.0;
         double total = 0.0;

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.Classes.Cart;
 import com.example.myapplication.Classes.SmartPhones;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -73,22 +75,18 @@ public class OrderActivity extends AppCompatActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                
                 SendData();
-
             }
         });
 
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent1 = new Intent(OrderActivity.this,PaymentActivity.class);
-                intent1.putExtra("totalPrice",mPrice);
-
+                Log.e("checking extras", "pid : " + pid);
+                CartActivity.addProduct(new Cart(id,username,pid,mPrice,pname,mUri) );
+                intent1.putExtra("totalPrice",CartActivity.getPrice());
                 startActivity(intent1);
-
             }
         });
 
