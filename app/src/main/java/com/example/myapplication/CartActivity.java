@@ -24,6 +24,10 @@ import com.example.myapplication.Classes.Cart;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -121,7 +125,7 @@ public class CartActivity extends AppCompatActivity {
             Integer productQuantity = entry.getValue();
             total += product.getPrice() * productQuantity;
         }
-        return total;
+        return Double.parseDouble(new DecimalFormat("#.##").format(total).toString());
     }
 
     public void removeItem(View view) {
