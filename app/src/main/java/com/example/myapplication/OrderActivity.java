@@ -42,7 +42,9 @@ public class OrderActivity extends AppCompatActivity {
     private double mPrice;
     private Uri mUri;
     private RatingBar ratingBar;
-    private Double total,avg,rate;
+    private double total;
+    private double avg;
+    private double rate;
 
 
 
@@ -151,17 +153,40 @@ public class OrderActivity extends AppCompatActivity {
                  for(DataSnapshot snapshot: dataSnapshot.getChildren())
                  {
                      HashMap hashMap = (HashMap) snapshot.getValue();
-
+                     ArrayList<String> ids = (ArrayList<String>) hashMap.get("productsId");
                         if(hashMap.get("rating") != null) {
-                            rate = Double.valueOf(hashMap.get("rating").toString());
-                            total = total + rate;
-                            i++;
+
+                            try {
+                                for(int k = 0 ; k < ids.size(); k++)
+                                {
+                                    if(ids.get(k).equals(pid))
+                                    {
+                                        rate = (double) hashMap.get("rating");
+                                        total = total + rate;
+                                        i++;
+                                    }
+
+                                }
+
+                                avg = total / i;
+
+                                ratingBar.setRating((float) avg);
+                            }
+                            catch (Exception e)
+                            {
+                                rate = (long) hashMap.get("rating");
+                                total = total + rate;
+                                i++;
+                                avg = total / i;
+
+                                ratingBar.setRating((float) avg);
+                            }
+
+
 
                         }
                  }
-                 avg = total / i;
 
-                 ratingBar.setRating(avg.floatValue());
              }
 
              @Override
