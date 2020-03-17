@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -40,7 +41,8 @@ public class OrderActivity extends AppCompatActivity {
     private double mPrice;
     private Uri mUri;
     private RatingBar ratingBar;
-    private Double total,avg,rate;
+    private double total,avg,rate;
+
 
 
 
@@ -57,6 +59,7 @@ public class OrderActivity extends AppCompatActivity {
         buy = findViewById(R.id.buttonBuy);
         ratingBar = findViewById(R.id.ratingBar2);
         ratingBar.setEnabled(false);
+
         setTitle("Order Product");
         final Intent intent = getIntent();
        Bundle bundle = intent.getExtras();
@@ -67,7 +70,7 @@ public class OrderActivity extends AppCompatActivity {
        pid = intent.getStringExtra("pid");
        mPrice = intent.getDoubleExtra("price",0);             // get all values from previous activity
        pname = intent.getStringExtra("pname");
-        total = 0.0;
+       total = 0.0;
         setViews();
 
         addToCart.setOnClickListener(new View.OnClickListener() {
@@ -150,25 +153,50 @@ public class OrderActivity extends AppCompatActivity {
              @Override
              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                  int i = 0;
+
+
                  for(DataSnapshot snapshot: dataSnapshot.getChildren())
                  {
                      HashMap hashMap = (HashMap) snapshot.getValue();
+                     ArrayList<String> ids = (ArrayList<String>) hashMap.get("productsId");
 
                         if(hashMap.get("rating") != null) {
-                            rate = (Double) hashMap.get("rating");
+                            try {
 
-                            total = total + rate;
-                            i++;
+                                for(int k = 0 ; k < ids.size(); k++)
+                                {
+                                    if(ids.get(k).equals(pid))
+                                    {
+                                        rate = (double) hashMap.get("rating");
+                                        total = total + rate;
+                                        i++;
+                                    }
+                                }
+                                avg = total / i;
+
+                                ratingBar.setRating((float) avg);
+
+
+                            }catch (Exception e)
+                            {
+                                rate = (Long) hashMap.get("rating");
+                                total = total + rate;
+                                i++;
+                                avg = total / i;
+                                ratingBar.setRating((float) avg);
+                                e.printStackTrace();
+                            }
+
 
                         }
-                 }
-                 avg = total / i;
 
-                 ratingBar.setRating(avg.floatValue());
+                 }
+
              }
 
              @Override
              public void onCancelled(@NonNull DatabaseError databaseError) {
+
 
              }
          });
