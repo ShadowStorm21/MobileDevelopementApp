@@ -105,12 +105,14 @@ public class PaymentActivity extends AppCompatActivity {
 
         String cardNumber = cardNo.getText().toString();
         String CVV = cardCVV.getText().toString();
-        Integer month = Integer.valueOf(cardMonth.getSelectedItem().toString()) - 1;
+        Integer month = Integer.parseInt(cardMonth.getSelectedItem().toString());
         Integer year = Integer.valueOf(cardYear.getSelectedItem().toString());
 
+
+
         Calendar calendar = Calendar.getInstance();
-        Integer curMonth = calendar.get(calendar.MONTH);
-        Integer curYear = calendar.get(calendar.YEAR);
+        Integer curMonth = calendar.get(Calendar.MONTH)  + 1;
+        Integer curYear = calendar.get(Calendar.YEAR);
 
         if(cardNumber.length() != 16) {
             errMsg.setText("Card Number must be 16 Number");
@@ -120,9 +122,12 @@ public class PaymentActivity extends AppCompatActivity {
             errMsg.setText("CVV must be 3 Numbers");
         return false;
         }
-        if(year < curYear || month < curMonth){
+        Log.e("date " , year + " : " + month + "\tCurrent date " + curYear + " : " + curMonth);
+        if(year.equals(curYear)){
+            if(month >= curMonth)
+                return true;
             errMsg.setText("Your Card is expired!");
-        return false;
+            return false;
         }
 
         return true;
@@ -136,8 +141,6 @@ public class PaymentActivity extends AppCompatActivity {
                 uuidOrder = UUID.randomUUID().toString(),
                 uid = LoginActivity.getId(),
                 paymentOption = paymentOptions.getCheckedRadioButtonId() == R.id.rbCash ? "Cash" : "Visa";
-
-        Log.e("User", uid + " And " + username);
 
         HashMap<Cart,Integer> products = CartActivity.getProducts(); // get all products from the cart
         ArrayList<String> productsId = new ArrayList<>();
