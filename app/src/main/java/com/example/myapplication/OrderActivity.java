@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.Classes.Cart;
 import com.example.myapplication.Classes.SmartPhones;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,8 +42,7 @@ public class OrderActivity extends AppCompatActivity {
     private double mPrice;
     private Uri mUri;
     private RatingBar ratingBar;
-    private double total,avg,rate;
-
+    private Double total,avg,rate;
 
 
 
@@ -59,7 +59,6 @@ public class OrderActivity extends AppCompatActivity {
         buy = findViewById(R.id.buttonBuy);
         ratingBar = findViewById(R.id.ratingBar2);
         ratingBar.setEnabled(false);
-
         setTitle("Order Product");
         final Intent intent = getIntent();
        Bundle bundle = intent.getExtras();
@@ -70,28 +69,24 @@ public class OrderActivity extends AppCompatActivity {
        pid = intent.getStringExtra("pid");
        mPrice = intent.getDoubleExtra("price",0);             // get all values from previous activity
        pname = intent.getStringExtra("pname");
-       total = 0.0;
+        total = 0.0;
         setViews();
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                
                 SendData();
-
             }
         });
 
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent1 = new Intent(OrderActivity.this,PaymentActivity.class);
-                intent1.putExtra("totalPrice",mPrice);
-
+                Log.e("checking extras", "pid : " + pid);
+                CartActivity.addProduct(new Cart(id,username,pid,mPrice,pname,mUri) );
+                intent1.putExtra("totalPrice",CartActivity.getPrice());
                 startActivity(intent1);
-
             }
         });
 
@@ -153,50 +148,24 @@ public class OrderActivity extends AppCompatActivity {
              @Override
              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                  int i = 0;
-
-
                  for(DataSnapshot snapshot: dataSnapshot.getChildren())
                  {
                      HashMap hashMap = (HashMap) snapshot.getValue();
-                     ArrayList<String> ids = (ArrayList<String>) hashMap.get("productsId");
 
                         if(hashMap.get("rating") != null) {
-                            try {
-
-                                for(int k = 0 ; k < ids.size(); k++)
-                                {
-                                    if(ids.get(k).equals(pid))
-                                    {
-                                        rate = (double) hashMap.get("rating");
-                                        total = total + rate;
-                                        i++;
-                                    }
-                                }
-                                avg = total / i;
-
-                                ratingBar.setRating((float) avg);
-
-
-                            }catch (Exception e)
-                            {
-                                rate = (Long) hashMap.get("rating");
-                                total = total + rate;
-                                i++;
-                                avg = total / i;
-                                ratingBar.setRating((float) avg);
-                                e.printStackTrace();
-                            }
-
+                            rate = Double.valueOf(hashMap.get("rating").toString());
+                            total = total + rate;
+                            i++;
 
                         }
-
                  }
+                 avg = total / i;
 
+                 ratingBar.setRating(avg.floatValue());
              }
 
              @Override
              public void onCancelled(@NonNull DatabaseError databaseError) {
-
 
              }
          });
