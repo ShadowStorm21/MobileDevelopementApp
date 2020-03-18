@@ -29,11 +29,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class OrderActivity extends AppCompatActivity {
-    private TextView header,price,description;
+    private TextView header,price,description,reviewer;
     private ImageView headImg;
     private ArrayList<SmartPhones> smartPhone;
     private Button addToCart,buy;
@@ -59,6 +62,7 @@ public class OrderActivity extends AppCompatActivity {
         description = findViewById(R.id.textViewDescription);
         addToCart = findViewById(R.id.buttonAddToCart);
         buy = findViewById(R.id.buttonBuy);
+        reviewer = findViewById(R.id.textViewReview);
         ratingBar = findViewById(R.id.ratingBar2);
         ratingBar.setEnabled(false);
         setTitle("Order Product");
@@ -164,6 +168,7 @@ public class OrderActivity extends AppCompatActivity {
                                         rate = (double) hashMap.get("rating");
                                         total = total + rate;
                                         i++;
+                                        reviewer.setText("Based on "+ i + " Reviews");
                                     }
 
                                 }
@@ -178,7 +183,7 @@ public class OrderActivity extends AppCompatActivity {
                                 total = total + rate;
                                 i++;
                                 avg = total / i;
-
+                                reviewer.setText("Based on "+ i + " Reviews");
                                 ratingBar.setRating((float) avg);
                             }
 

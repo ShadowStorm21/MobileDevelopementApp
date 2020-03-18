@@ -44,13 +44,21 @@
                 android:layout_margin="22dp" />
 
             <TextView
+                android:id="@+id/textViewReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="22dp"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
                 android:id="@+id/textViewDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="22dp"
                 android:padding="5dp"
                 android:textAlignment="center"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textViewPriceOrder"
