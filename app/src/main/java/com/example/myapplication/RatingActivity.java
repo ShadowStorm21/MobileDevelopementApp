@@ -49,7 +49,7 @@ public class RatingActivity extends AppCompatActivity {
         rate = findViewById(R.id.buttonRate);
         username = LoginActivity.getUsername();
         id = LoginActivity.getId();
-//
+//asdadasdasdasd
 
          Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
